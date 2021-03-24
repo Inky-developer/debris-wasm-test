@@ -25,6 +25,6 @@ jobs:
     - name: Github Pages action
       uses: peaceiris/actions-gh-pages@3.7.0
       with:
-        github_token: ${{ secrests.GITHUB_TOKEN }}
+        github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./www/dist
     
