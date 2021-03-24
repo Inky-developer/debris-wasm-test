@@ -23,7 +23,7 @@ jobs:
     - name: Build website
       run: cd www; npm install; npm run build
     - name: Github Pages action
-      uses: peaceiris/actions-gh-pages@3.7.0
+      uses: peaceiris/actions-gh-pages@v3
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         publish_dir: ./www/dist
