@@ -22,4 +22,9 @@ jobs:
       run: wasm-pack build
     - name: Build website
       run: cd www; npm install; npm run build
+    - name: Github Pages action
+      uses: peaceiris/actions-gh-pages@3.7.0
+      with:
+        github_token: ${{ secrests.GITHUB_TOKEN }}
+        publish_dir: ./www/dist
     
