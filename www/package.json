@@ -27,7 +27,9 @@
   },
   "homepage": "https://github.com/rustwasm/create-wasm-app#readme",
   "dependencies": {
-    "debris_wasm_test": "file:../pkg"
+    "debris_wasm_test": "file:../pkg",
+    "codejar": "^3.3.0",
+    "prismjs": "^1.23.0"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^5.0.0",
