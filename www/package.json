@@ -32,8 +32,12 @@
     "@codemirror/view": "0.18.3",
     "@codemirror/commands": "0.18.0",
     "@codemirror/state": "0.18.3",
+    "@codemirror/matchbrackets": "0.18.0",
     "@codemirror/closebrackets": "0.18.0",
-    "@codemirror/history": "0.18.1"
+    "@codemirror/history": "0.18.1",
+    "@codemirror/language": "0.18.0",
+    "@codemirror/highlight": "0.18.3",
+    "@codemirror/fold": "0.18.0"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^5.0.0",

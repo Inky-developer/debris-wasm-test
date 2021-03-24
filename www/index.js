@@ -31,8 +31,8 @@ new EditorView({
                     try {
                         let compiled_code = wasm.compile(content);
                         output_editor.setState(EditorState.create({ doc: compiled_code }));
-                        error_banner.style.visibility = "hidden";
                     } catch (err) {
+                        console.log(err);
                         const report = encodeURIComponent(error_report.replace("%%%", content));
                         const msg = report_err.replace("%%%", report);
                         const error_message = `<div>The compiler crashed: "${err}".<br>This is a bug. ${msg}</div>`
