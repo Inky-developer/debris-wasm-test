@@ -47,3 +47,41 @@ body {
   visibility: collapse;
 }
 
+.toolbar {
+  background-color: aliceblue;
+  border-radius: 6pt;
+  width: calc(100% - 10pt);
+  display: flex;
+  padding: 5pt;
+  box-sizing: border-box;
+  margin: 5pt;
+  flex-wrap: wrap;
+  /* justify-content: space-evenly; */
+}
+
+.toolbar > button {
+  flex: 1;
+  padding: 2pt;
+  margin: 2pt;
+  max-width: 150pt;
+
+  /* Buttons visuals */
+  background-color: aliceblue;
+  border: 2pt solid cadetblue;
+  text-decoration: none;
+  display: inline-block;
+  border-radius: 4pt;
+  color: darkslategray;
+  font-size: medium;
+}
+
+.toolbar > button:hover {
+  background-color: cadetblue;
+  border: 2pt solid blueviolet;
+  transition-duration: 200ms;
+}
+
+.toolbar > button:active {
+  background-color: blueviolet;
+  transition-duration: 100ms;
+}

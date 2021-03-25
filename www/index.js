@@ -25,7 +25,16 @@ const output_editor = new EditorView({
         extensions: output_editor_extensions
     }),
     parent: document.getElementById("code_output"),
-})
+});
+
+let initial_code = localStorage.getItem("last_code");
+// Overwrite the initial code if the url specifies something specific
+const url_search_params = new URLSearchParams(window.location.search);
+const url_code = url_search_params.get("code");
+
+if (url_code !== null) {
+    initial_code = url_code;
+} 
 
 const input_editor = new EditorView({
     state: EditorState.create({
@@ -50,7 +59,7 @@ const input_editor = new EditorView({
             ]),
             rust(),
         ],
-        doc: localStorage.getItem("last_code")
+        doc: initial_code
     }),
     parent: document.getElementById("code_input"),
 });
@@ -80,7 +89,17 @@ function compile() {
     }
 }
 
+function get_permalink() {
+    const URL = "https://inky-developer.github.io/debris-wasm-test/?code=";
+    const code = encodeURIComponent(input_editor.state.doc.toString());
+    return URL + code;
+
+}
+
 // intial compile
 compile();
 // Save code to local storage so it is persistent
 window.onunload = () => localStorage.setItem("last_code", input_editor.state.doc.toString());
+
+document.getElementById("permalink").onclick = () => window.location.href = get_permalink();
+document.getElementById("download").onclick = () => alert("This feature is not yet implemented");
