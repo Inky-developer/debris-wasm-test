@@ -118,6 +118,7 @@ body {
   text-decoration: none;
   display: block;
   font-family: fantasy;
+  overflow: auto;
 }
 
 .dropdown_content a:hover {background-color: #0005;}
