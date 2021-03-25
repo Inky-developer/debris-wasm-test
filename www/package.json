@@ -37,7 +37,9 @@
     "@codemirror/history": "0.18.1",
     "@codemirror/language": "0.18.0",
     "@codemirror/highlight": "0.18.3",
-    "@codemirror/fold": "0.18.0"
+    "@codemirror/fold": "0.18.0",
+    "jszip": "3.6.0",
+    "file-saver": "2.0.5"
   },
   "devDependencies": {
     "copy-webpack-plugin": "^5.0.0",

@@ -13,7 +13,20 @@
 <body>
   <noscript>This page contains webassembly and javascript content, please enable javascript in your browser.</noscript>
   <section class="toolbar">
-    <button id="permalink">Permalink</button>
+    <div class="dropdown" id="example_dropdown">
+      <button class="dropdown_button">Select Example</button>
+      <div class="dropdown_content" id="example_dropdown_list">
+        Loading... Please wait
+      </div>
+    </div>
+    <div class="dropdown">
+      <button class="dropdown_button" id="opt_mode">Optimizations: Full</button>
+      <div class="dropdown_content">
+        <a id="btn_release">Release</a>
+        <a id="btn_debug">Debug</a>
+      </div>
+    </div>
+    <button id="permalink">Create Permalink</button>
     <button id="download">Download Datapack</button>
   </section>
   <section class="container">

@@ -5,6 +5,7 @@ use debris_lang::{
     vfs::{Directory, FsElement},
     CompileConfig,
 };
+use serde_json::json;
 use std::fmt::Write;
 use wasm_bindgen::prelude::*;
 // use wee_alloc::WeeAlloc;
@@ -35,8 +36,14 @@ impl CompileResult {
 }
 
 #[wasm_bindgen]
-pub fn compile(source: String) -> CompileResult {
+pub fn compile(source: String, opt_mode: u8) -> CompileResult {
     let mut config = CompileConfig::new(get_std_module().into(), ".".into());
+    let opt_mode = match opt_mode {
+        0 => debris_core::OptMode::None,
+        1 => debris_core::OptMode::Full,
+        _ => return CompileResult(Err("Invalid Opt Mode".to_string())),
+    };
+    config.compile_context.config.opt_mode = opt_mode;
     match compile_inner(source, &mut config) {
         Ok(mut result) => {
             let function_folder = match result
@@ -56,6 +63,32 @@ pub fn compile(source: String) -> CompileResult {
     }
 }
 
+/// Compiles the source and returns the full datapack as a json string
+#[wasm_bindgen]
+pub fn compile_full(source: String) -> Option<String> {
+    fn dir_to_json(dir: Directory) -> serde_json::Value {
+        let sub_dirs: serde_json::Value = dir
+            .directories
+            .into_iter()
+            .map(|(name, dir)| json!({"name": name, "content": dir_to_json(dir)}))
+            .collect();
+        let sub_files: serde_json::Value = dir
+            .files
+            .into_iter()
+            .map(|(name, file)| json!({"name": name, "content": file.contents}))
+            .collect();
+        json!({
+            "dirs": sub_dirs,
+            "files": sub_files,
+        })
+    }
+
+    let mut config = CompileConfig::new(get_std_module().into(), ".".into());
+    match compile_inner(source, &mut config) {
+        Ok(dir) => Some(dir_to_json(dir).to_string()),
+        Err(_) => None,
+    }
+}
 
 fn compile_inner(
     source: String,
