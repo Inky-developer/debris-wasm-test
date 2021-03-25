@@ -90,7 +90,7 @@ function compile() {
 }
 
 function get_permalink() {
-    const URL = "https://inky-developer.github.io/debris-wasm-test/?code=";
+    const URL = "https://inky-developer.github.io/debris-playground/?code=";
     const code = encodeURIComponent(input_editor.state.doc.toString());
     return URL + code;
 
