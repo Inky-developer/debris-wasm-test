@@ -159,6 +159,7 @@ function load_examples() {
             Promise.all(fetches).then(() => {
                 const items_obj = document.getElementById("example_dropdown_list");
                 items_obj.innerHTML = "";
+                examples.sort();
                 for (let element of examples) {
                     let obj = document.createElement("a");
                     obj.innerText = element.name;
