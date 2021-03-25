@@ -7,23 +7,60 @@ use debris_lang::{
 };
 use std::fmt::Write;
 use wasm_bindgen::prelude::*;
+// use wee_alloc::WeeAlloc;
 
-// When the `wee_alloc` feature is enabled, use `wee_alloc` as the global
-// allocator.
-#[cfg(feature = "wee_alloc")]
-#[global_allocator]
-static ALLOC: wee_alloc::WeeAlloc = wee_alloc::WeeAlloc::INIT;
+// #[global_allocator]
+// static ALLOC: WeeAlloc = WeeAlloc::INIT;
 
 #[wasm_bindgen]
-pub fn compile(source: String) -> String {
-    let mut config = CompileConfig::new(get_std_module().into(), ".".into());
-    match compile_inner(source, &mut config) {
-        Ok(result) => result,
-        Err(error) => error.format(&config.compile_context),
+pub struct CompileResult(Result<String, String>);
+
+#[wasm_bindgen]
+impl CompileResult {
+    #[wasm_bindgen(getter)]
+    pub fn data(&self) -> JsValue {
+        match self.0.as_ref() {
+            Ok(result) => JsValue::from_str(&result),
+            Err(_) => JsValue::null(),
+        }
+    }
+
+    #[wasm_bindgen(getter)]
+    pub fn error(&self) -> JsValue {
+        match self.0.as_ref() {
+            Ok(_) => JsValue::null(),
+            Err(e) => JsValue::from_str(&e),
+        }
     }
 }
 
-fn compile_inner(source: String, config: &mut CompileConfig) -> debris_core::error::Result<String> {
+#[wasm_bindgen]
+pub fn compile(source: String) -> CompileResult {
+    let mut config = CompileConfig::new(get_std_module().into(), ".".into());
+    match compile_inner(source, &mut config) {
+        Ok(mut result) => {
+            let function_folder = match result
+                .resolve_path(&[
+                    "data".to_string(),
+                    "debris_project".to_string(),
+                    "functions".to_string(),
+                ])
+                .unwrap()
+            {
+                FsElement::Directoy(dir) => dir,
+                _ => panic!("Expected dir"),
+            };
+            CompileResult(Ok(stringify_dir(function_folder)))
+        }
+        Err(error) => CompileResult(Err(error.format(&config.compile_context))),
+    }
+}
+
+
+fn compile_inner(
+    source: String,
+    config: &mut CompileConfig,
+) -> debris_core::error::Result<Directory> {
     let id = config
         .compile_context
         .input_files
@@ -33,20 +70,9 @@ fn compile_inner(source: String, config: &mut CompileConfig) -> debris_core::err
     let mut mir = config.get_mir(&hir)?;
     let llir = config.get_llir(&mir.contexts, &mut mir.namespaces)?;
 
-    let mut result = DatapackBackend.generate(&llir, &config.compile_context);
-    let function_folder = match result
-        .resolve_path(&[
-            "data".to_string(),
-            "debris_project".to_string(),
-            "functions".to_string(),
-        ])
-        .expect("Could not find folder")
-    {
-        FsElement::Directoy(dir) => dir,
-        _ => panic!("Expected dir"),
-    };
+    let result = DatapackBackend.generate(&llir, &config.compile_context);
 
-    Ok(stringify_dir(function_folder))
+    Ok(result)
 }
 
 fn stringify_dir(dir: &Directory) -> String {

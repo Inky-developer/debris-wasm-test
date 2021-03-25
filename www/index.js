@@ -27,23 +27,12 @@ const output_editor = new EditorView({
     parent: document.getElementById("code_output"),
 })
 
-new EditorView({
+const input_editor = new EditorView({
     state: EditorState.create({
         extensions: [
             EditorView.updateListener.of((update) => {
                 if (update.docChanged) {
-                    let content = update.state.doc.toString();
-                    try {
-                        let compiled_code = wasm.compile(content);
-                        output_editor.setState(EditorState.create({ doc: compiled_code, extensions: output_editor_extensions }));
-                    } catch (err) {
-                        console.log(err);
-                        const report = encodeURIComponent(error_report.replace("%%%", content));
-                        const msg = report_err.replace("%%%", report);
-                        const error_message = `<div>The compiler crashed: "${err}".<br>This is a bug. ${msg}</div>`
-                        error_banner.innerHTML = error_message;
-                        error_banner.style.visibility = "visible";
-                    }
+                    compile();
                 }
             }),
             foldGutter(),
@@ -61,6 +50,37 @@ new EditorView({
             ]),
             rust(),
         ],
+        doc: localStorage.getItem("last_code")
     }),
     parent: document.getElementById("code_input"),
 });
+
+
+function compile() {
+    let content = input_editor.state.doc.toString();
+    try {
+        const result = wasm.compile(content);
+
+        let content_string;
+        const err = result.error;
+        if (err !== null) {
+            content_string = err;
+        } else {
+            content_string = result.data;
+        }
+        
+        output_editor.setState(EditorState.create({ doc: content_string, extensions: output_editor_extensions }));
+    } catch (err) {
+        console.log(err);
+        const report = encodeURIComponent(error_report.replace("%%%", content));
+        const msg = report_err.replace("%%%", report);
+        const error_message = `<div>The compiler crashed: "${err}".<br>This is a bug. ${msg}</div>`
+        error_banner.innerHTML = error_message;
+        error_banner.style.visibility = "visible";
+    }
+}
+
+// intial compile
+compile();
+// Save code to local storage so it is persistent
+window.onunload = () => localStorage.setItem("last_code", input_editor.state.doc.toString());
