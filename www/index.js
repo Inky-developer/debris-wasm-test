@@ -1,6 +1,6 @@
 import { EditorState } from "@codemirror/state";
 import { EditorView, keymap, highlightActiveLine } from "@codemirror/view";
-import { defaultTabBinding, standardKeymap } from "@codemirror/commands";
+import { defaultTabBinding, indentLess, indentMore, indentSelection, standardKeymap } from "@codemirror/commands";
 import { indentOnInput } from "@codemirror/language"
 import { bracketMatching } from "@codemirror/matchbrackets"
 import { closeBrackets, closeBracketsKeymap } from "@codemirror/closebrackets"
@@ -17,9 +17,14 @@ const error_report = 'The following code causes an internal compile error:\n```\
 
 const error_banner = document.getElementById("error_banner");
 
+const output_editor_extensions = [
+    EditorView.editable.of(() => false)
+];
 const output_editor = new EditorView({
-    state: EditorState.create({}),
-    parent: document.getElementById("code_output")
+    state: EditorState.create({
+        extensions: output_editor_extensions
+    }),
+    parent: document.getElementById("code_output"),
 })
 
 new EditorView({
@@ -30,7 +35,7 @@ new EditorView({
                     let content = update.state.doc.toString();
                     try {
                         let compiled_code = wasm.compile(content);
-                        output_editor.setState(EditorState.create({ doc: compiled_code }));
+                        output_editor.setState(EditorState.create({ doc: compiled_code, extensions: output_editor_extensions }));
                     } catch (err) {
                         console.log(err);
                         const report = encodeURIComponent(error_report.replace("%%%", content));
@@ -52,7 +57,7 @@ new EditorView({
                 ...closeBracketsKeymap,
                 ...standardKeymap,
                 ...historyKeymap,
-                defaultTabBinding,
+                { key: "Tab", run: indentMore, shift: indentLess },
             ]),
             rust(),
         ],
