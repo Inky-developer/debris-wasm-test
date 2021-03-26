@@ -1,6 +1,6 @@
 import { EditorState } from "@codemirror/state";
 import { EditorView, keymap, highlightActiveLine } from "@codemirror/view";
-import { defaultTabBinding, indentLess, indentMore, indentSelection, standardKeymap } from "@codemirror/commands";
+import { indentLess, indentMore, standardKeymap } from "@codemirror/commands";
 import { indentOnInput } from "@codemirror/language"
 import { bracketMatching } from "@codemirror/matchbrackets"
 import { closeBrackets, closeBracketsKeymap } from "@codemirror/closebrackets"
@@ -8,12 +8,33 @@ import { history, historyKeymap } from "@codemirror/history"
 import { defaultHighlightStyle } from "@codemirror/highlight"
 // import { lineNumbers } from "@codemirror/gutter"
 import { foldGutter } from "@codemirror/fold"
-import { rust } from "@codemirror/lang-rust";
+// import { rust } from "@codemirror/lang-rust";
+import { StreamLanguage } from "@codemirror/stream-parser"
+import { clike } from "@codemirror/legacy-modes/mode/clike"
 
 import { saveAs } from "file-saver";
 const JSZip = require("jszip");
 
 import * as wasm from "debris_wasm_test";
+
+function debris_lang() {
+    function words(str) {
+        var obj = {}, words = str.split(" ");
+        for (var i = 0; i < words.length; ++i) obj[words[i]] = true;
+        return obj;
+    }
+
+    return StreamLanguage.define(clike({
+        keywords: words("let import mod fn loop if else return break continue not and or"),
+        types: words("Any Int Bool Null StaticInt DynamicInt StaticBool DynamicBool String Module"),
+        number: /-?[0-9]+/,
+        blockKeywords: words("mod fn loop if else"),
+        defKeywords: words("fn"),
+        atoms: words("true false"),
+        builtin: words("execute set_score print dbg register_ticking_function dyn_int"),
+        typeFirstDefinitions: false,
+    }));
+}
 
 let build_mode = 1;
 
@@ -74,7 +95,7 @@ const input_editor = new EditorView({
                 ...historyKeymap,
                 { key: "Tab", run: indentMore, shift: indentLess },
             ]),
-            rust(),
+            debris_lang(),
         ],
         doc: initial_code
     }),

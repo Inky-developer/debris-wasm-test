@@ -29,6 +29,8 @@
   "dependencies": {
     "debris_wasm_test": "file:../pkg",
     "@codemirror/lang-rust": "0.18.0",
+    "@codemirror/stream-parser": "0.18.1",
+    "@codemirror/legacy-modes": "0.18.0",
     "@codemirror/view": "0.18.3",
     "@codemirror/commands": "0.18.0",
     "@codemirror/state": "0.18.3",
