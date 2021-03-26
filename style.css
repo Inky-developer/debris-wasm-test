@@ -90,6 +90,17 @@ body {
   transition-duration: 100ms;
 }
 
+#repo_link {
+  align-self: center;
+  display: inline-flex;
+  flex: 1;
+  justify-content: right;
+}
+
+#repo_link > img {
+  width: 32px;
+}
+
 .dropdown {
   display: inline-block;
   position: relative;
