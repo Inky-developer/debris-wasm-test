@@ -11,19 +11,20 @@ import { foldGutter } from "@codemirror/fold"
 // import { rust } from "@codemirror/lang-rust";
 import { StreamLanguage } from "@codemirror/stream-parser"
 import { clike } from "@codemirror/legacy-modes/mode/clike"
+import { haskell } from "@codemirror/legacy-modes/mode/haskell";
 
 import { saveAs } from "file-saver";
 const JSZip = require("jszip");
 
 import * as wasm from "debris_wasm_test";
 
-function debris_lang() {
-    function words(str) {
-        var obj = {}, words = str.split(" ");
-        for (var i = 0; i < words.length; ++i) obj[words[i]] = true;
-        return obj;
-    }
+function words(str) {
+    var obj = {}, words = str.split(" ");
+    for (var i = 0; i < words.length; ++i) obj[words[i]] = true;
+    return obj;
+}
 
+function debris_lang() {
     return StreamLanguage.define(clike({
         keywords: words("let import mod fn loop if else return break continue not and or"),
         types: words("Any Int Bool Null StaticInt DynamicInt StaticBool DynamicBool String Module"),
@@ -34,6 +35,14 @@ function debris_lang() {
         builtin: words("execute set_score print dbg register_ticking_function dyn_int"),
         typeFirstDefinitions: false,
     }));
+}
+
+function mc_lang() {
+    return StreamLanguage.define(clike({
+        keywords: words("advancement attribute ban ban-ip banlist bossbar clear clone data datapack debug defaultgamemode deop difficulty effect enchant execute experience fill forceload function gamemode gamerule give help kick kill list locate locatebiome loot me msg op pardon pardon-ip particle playsound publish recipe reload replaceitem save-all save-off save-on say schedule scoreboard seed setblock setidletimeout setworldspawn spawnpoint spectate spreadplayers stop stopsound summon tag team teammsg teleport tell tellraw time title tm tp trigger w weather whitelist worldborder xp"),
+        types: words("if unless score entity block storage matches run objectives players set operation add remove"),
+        atoms: words("debris"),
+    }))
 }
 
 let build_mode = 1;
@@ -56,7 +65,9 @@ document.getElementById("btn_release").onclick = () => {
 }
 
 const output_editor_extensions = [
-    EditorView.editable.of(() => false)
+    EditorView.editable.of(() => false),
+    defaultHighlightStyle.fallback,
+    mc_lang(),
 ];
 const output_editor = new EditorView({
     state: EditorState.create({
