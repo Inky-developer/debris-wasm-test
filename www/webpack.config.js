@@ -7,9 +7,10 @@ module.exports = {
     path: path.resolve(__dirname, "dist"),
     filename: "bootstrap.js",
   },
-  mode: "development",
+  mode: "production",
   plugins: [
     new CopyWebpackPlugin(['index.html']),
-    new CopyWebpackPlugin(['style.css'])
+    new CopyWebpackPlugin(['style.css']),
+    new CopyWebpackPlugin(['Github-Mark-64px.png']),
   ],
 };
