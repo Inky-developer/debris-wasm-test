@@ -11,6 +11,6 @@ module.exports = {
   plugins: [
     new CopyWebpackPlugin(['index.html']),
     new CopyWebpackPlugin(['style.css']),
-    new CopyWebpackPlugin(['Github-Mark-64px.png']),
+    new CopyWebpackPlugin(['github_logo.png']),
   ],
 };
