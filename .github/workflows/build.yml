@@ -8,7 +8,8 @@ on:
   schedule:
     # Run this workflow every day
     - cron: '0 0 * * *'
-
+  workflow_dispatch:
+  
 env:
   CARGO_TERM_COLOR: always
 
