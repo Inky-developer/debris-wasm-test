@@ -47,11 +47,7 @@ pub fn compile(source: String, opt_mode: u8) -> CompileResult {
     match compile_inner(source, &mut config) {
         Ok(mut result) => {
             let function_folder = match result
-                .resolve_path(&[
-                    "data".to_string(),
-                    "debris_project".to_string(),
-                    "functions".to_string(),
-                ])
+                .resolve_path(&["data", "debris_project", "functions"])
                 .unwrap()
             {
                 FsElement::Directoy(dir) => dir,
