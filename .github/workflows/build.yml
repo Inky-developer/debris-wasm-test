@@ -20,6 +20,8 @@ jobs:
 
     steps:
     - uses: actions/checkout@v2
+    - name: update rust
+      run: rustup update stable
     - name: update dependencies
       run: cargo update
     - name: Install wasm-pack
