@@ -26,7 +26,7 @@ function words(str) {
 
 function debris_lang() {
     return StreamLanguage.define(clike({
-        keywords: words("let import mod fn loop if else return break continue not and or"),
+        keywords: words("let comptime import mod fn loop if else return break continue not and or"),
         types: words("Any Int Bool Null StaticInt DynamicInt StaticBool DynamicBool String Module"),
         number: /-?[0-9]+/,
         blockKeywords: words("mod fn loop if else"),
