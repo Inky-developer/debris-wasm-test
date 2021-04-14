@@ -83,6 +83,8 @@ const url_code = url_search_params.get("code");
 
 if (url_code !== null) {
     initial_code = url_code;
+    // Update the meta description
+    document.querySelector("meta[name=description]").setAttribute("content", url_code);
 }
 
 const input_editor = new EditorView({
