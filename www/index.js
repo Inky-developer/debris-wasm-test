@@ -11,7 +11,6 @@ import { foldGutter } from "@codemirror/fold"
 // import { rust } from "@codemirror/lang-rust";
 import { StreamLanguage } from "@codemirror/stream-parser"
 import { clike } from "@codemirror/legacy-modes/mode/clike"
-import { haskell } from "@codemirror/legacy-modes/mode/haskell";
 
 import { saveAs } from "file-saver";
 const JSZip = require("jszip");
@@ -82,9 +81,20 @@ const url_search_params = new URLSearchParams(window.location.search);
 const url_code = url_search_params.get("code");
 
 if (url_code !== null) {
-    initial_code = url_code;
-    // Update the meta description
-    document.querySelector("meta[name=description]").setAttribute("content", url_code);
+    // huh?
+    const url = `https://debris-snippets.glitch.me/get/${url_code}`; 
+    fetch(url, {})
+        .then((response) => response.json())
+        .then((json) => {
+            if (json.success) {
+                let new_code = json.snippet;
+                document.querySelector("meta[name=description]").setAttribute("content", new_code);
+                set_input(new_code);
+            } else {
+                alert("Invalid permalink: Could not load this code snippet");
+            }
+        }
+    );
 }
 
 const input_editor = new EditorView({
@@ -146,10 +156,19 @@ function compile() {
     }
 }
 
-function get_permalink() {
+async function get_permalink() {
     const URL = "https://inky-developer.github.io/debris-playground/?code=";
     const code = encodeURIComponent(input_editor.state.doc.toString());
-    return URL + code;
+
+    // Please be nice...
+    const snippet_url = `https://debris-snippets.glitch.me/add/${code}`;
+    const response = await fetch(snippet_url).then((response) => response.json());
+    if (response.success) {
+        return URL + response.id;
+    }
+
+    alert("Could not create a permalink!");
+    return null;
 }
 
 function download_pack() {
@@ -210,5 +229,5 @@ compile();
 // Save code to local storage so it is persistent
 window.onunload = () => localStorage.setItem("last_code", input_editor.state.doc.toString());
 
-document.getElementById("permalink").onclick = () => window.location.href = get_permalink();
+document.getElementById("permalink").onclick = () => get_permalink().then((permalink) => window.location.href = permalink);
 document.getElementById("download").onclick = () => download_pack();
