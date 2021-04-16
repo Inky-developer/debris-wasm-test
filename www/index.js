@@ -39,7 +39,7 @@ function debris_lang() {
 function mc_lang() {
     return StreamLanguage.define(clike({
         keywords: words("advancement attribute ban ban-ip banlist bossbar clear clone data datapack debug defaultgamemode deop difficulty effect enchant execute experience fill forceload function gamemode gamerule give help kick kill list locate locatebiome loot me msg op pardon pardon-ip particle playsound publish recipe reload replaceitem save-all save-off save-on say schedule scoreboard seed setblock setidletimeout setworldspawn spawnpoint spectate spreadplayers stop stopsound summon tag team teammsg teleport tell tellraw time title tm tp trigger w weather whitelist worldborder xp"),
-        types: words("if unless score entity block storage matches run objectives players set operation add remove"),
+        types: words("if unless store result score entity block storage matches run objectives players set operation add remove"),
         atoms: words("debris"),
     }))
 }
@@ -231,6 +231,7 @@ window.onunload = () => localStorage.setItem("last_code", input_editor.state.doc
 
 document.getElementById("permalink").onclick = () => {
     const element = document.getElementById("permalink");
+    element.disabled = true;
     element.textContent = "Please wait...";
     get_permalink().then((permalink) => window.location.href = permalink);
 };
