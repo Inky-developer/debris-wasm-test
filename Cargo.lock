@@ -80,7 +80,7 @@ dependencies = [
 [[package]]
 name = "debris-backends"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#e3b4af4f58163990bf223e6b910094b5282eb523"
+source = "git+https://github.com/Inky-developer/debris#f0cf77e730743837218cfe87716390f1e2514f6c"
 dependencies = [
  "debris-core",
  "vfs",
@@ -89,7 +89,7 @@ dependencies = [
 [[package]]
 name = "debris-common"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#e3b4af4f58163990bf223e6b910094b5282eb523"
+source = "git+https://github.com/Inky-developer/debris#f0cf77e730743837218cfe87716390f1e2514f6c"
 dependencies = [
  "rustc-hash",
  "smol_str",
@@ -98,7 +98,7 @@ dependencies = [
 [[package]]
 name = "debris-core"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#e3b4af4f58163990bf223e6b910094b5282eb523"
+source = "git+https://github.com/Inky-developer/debris#f0cf77e730743837218cfe87716390f1e2514f6c"
 dependencies = [
  "annotate-snippets",
  "debris-common",
@@ -117,7 +117,7 @@ dependencies = [
 [[package]]
 name = "debris-derive"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#e3b4af4f58163990bf223e6b910094b5282eb523"
+source = "git+https://github.com/Inky-developer/debris#f0cf77e730743837218cfe87716390f1e2514f6c"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -127,7 +127,7 @@ dependencies = [
 [[package]]
 name = "debris-lang"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#e3b4af4f58163990bf223e6b910094b5282eb523"
+source = "git+https://github.com/Inky-developer/debris#f0cf77e730743837218cfe87716390f1e2514f6c"
 dependencies = [
  "debris-backends",
  "debris-common",
@@ -140,7 +140,7 @@ dependencies = [
 [[package]]
 name = "debris-std"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#e3b4af4f58163990bf223e6b910094b5282eb523"
+source = "git+https://github.com/Inky-developer/debris#f0cf77e730743837218cfe87716390f1e2514f6c"
 dependencies = [
  "debris-core",
 ]
@@ -439,7 +439,7 @@ checksum = "f7fe0bb3479651439c9112f72b6c505038574c9fbb575ed1bf3b797fa39dd564"
 [[package]]
 name = "vfs"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#e3b4af4f58163990bf223e6b910094b5282eb523"
+source = "git+https://github.com/Inky-developer/debris#f0cf77e730743837218cfe87716390f1e2514f6c"
 
 [[package]]
 name = "wasm-bindgen"

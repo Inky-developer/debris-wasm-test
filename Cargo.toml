@@ -18,7 +18,7 @@ serde_json = "1"
 wasm-bindgen-test = "0.3"
 
 [profile.release]
-# Tell `rustc` to optimize for small code size.
-opt-level = "s"
+# not much point in optimizing for size, as that only saves ~100kb
+opt-level = 3
 lto = true
 codegen-units = 1
