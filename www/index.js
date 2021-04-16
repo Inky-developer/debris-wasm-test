@@ -229,5 +229,9 @@ compile();
 // Save code to local storage so it is persistent
 window.onunload = () => localStorage.setItem("last_code", input_editor.state.doc.toString());
 
-document.getElementById("permalink").onclick = () => get_permalink().then((permalink) => window.location.href = permalink);
+document.getElementById("permalink").onclick = () => {
+    const element = document.getElementById("permalink");
+    element.textContent = "Please wait...";
+    get_permalink().then((permalink) => window.location.href = permalink);
+};
 document.getElementById("download").onclick = () => download_pack();
