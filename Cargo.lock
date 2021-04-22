@@ -80,7 +80,7 @@ dependencies = [
 [[package]]
 name = "debris-backends"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#f0cf77e730743837218cfe87716390f1e2514f6c"
+source = "git+https://github.com/Inky-developer/debris#f612c9761ceb30f4ba53f514ec8bf7fcb4465166"
 dependencies = [
  "debris-core",
  "vfs",
@@ -89,8 +89,9 @@ dependencies = [
 [[package]]
 name = "debris-common"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#f0cf77e730743837218cfe87716390f1e2514f6c"
+source = "git+https://github.com/Inky-developer/debris#f612c9761ceb30f4ba53f514ec8bf7fcb4465166"
 dependencies = [
+ "indexmap",
  "rustc-hash",
  "smol_str",
 ]
@@ -98,12 +99,11 @@ dependencies = [
 [[package]]
 name = "debris-core"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#f0cf77e730743837218cfe87716390f1e2514f6c"
+source = "git+https://github.com/Inky-developer/debris#f612c9761ceb30f4ba53f514ec8bf7fcb4465166"
 dependencies = [
  "annotate-snippets",
  "debris-common",
  "debris-derive",
- "generational-arena",
  "indexmap",
  "itertools",
  "lazy_static",
@@ -117,7 +117,7 @@ dependencies = [
 [[package]]
 name = "debris-derive"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#f0cf77e730743837218cfe87716390f1e2514f6c"
+source = "git+https://github.com/Inky-developer/debris#f612c9761ceb30f4ba53f514ec8bf7fcb4465166"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -127,7 +127,7 @@ dependencies = [
 [[package]]
 name = "debris-lang"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#f0cf77e730743837218cfe87716390f1e2514f6c"
+source = "git+https://github.com/Inky-developer/debris#f612c9761ceb30f4ba53f514ec8bf7fcb4465166"
 dependencies = [
  "debris-backends",
  "debris-common",
@@ -140,7 +140,7 @@ dependencies = [
 [[package]]
 name = "debris-std"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#f0cf77e730743837218cfe87716390f1e2514f6c"
+source = "git+https://github.com/Inky-developer/debris#f612c9761ceb30f4ba53f514ec8bf7fcb4465166"
 dependencies = [
  "debris-core",
 ]
@@ -175,15 +175,6 @@ name = "fake-simd"
 version = "0.1.2"
 source = "registry+https://github.com/rust-lang/crates.io-index"
 checksum = "e88a8acf291dafb59c2d96e8f59828f3838bb1a70398823ade51a84de6a6deed"
-
-[[package]]
-name = "generational-arena"
-version = "0.2.8"
-source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "8e1d3b771574f62d0548cee0ad9057857e9fc25d7a3335f140c84f6acd0bf601"
-dependencies = [
- "cfg-if 0.1.10",
-]
 
 [[package]]
 name = "generic-array"
@@ -383,9 +374,9 @@ checksum = "6ca0f7ce3a29234210f0f4f0b56f8be2e722488b95cb522077943212da3b32eb"
 
 [[package]]
 name = "syn"
-version = "1.0.69"
+version = "1.0.70"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "48fe99c6bd8b1cc636890bcc071842de909d902c81ac7dab53ba33c421ab8ffb"
+checksum = "b9505f307c872bab8eb46f77ae357c8eba1fdacead58ee5a850116b1d7f82883"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -439,7 +430,7 @@ checksum = "f7fe0bb3479651439c9112f72b6c505038574c9fbb575ed1bf3b797fa39dd564"
 [[package]]
 name = "vfs"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#f0cf77e730743837218cfe87716390f1e2514f6c"
+source = "git+https://github.com/Inky-developer/debris#f612c9761ceb30f4ba53f514ec8bf7fcb4465166"
 
 [[package]]
 name = "wasm-bindgen"
