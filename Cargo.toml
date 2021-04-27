@@ -17,6 +17,7 @@ serde_json = "1"
 [dev-dependencies]
 wasm-bindgen-test = "0.3"
 
+
 [profile.release]
 # not much point in optimizing for size, as that only saves ~100kb
 opt-level = 3
