@@ -107,7 +107,7 @@ fn compile_inner(
 fn stringify_dir(dir: &Directory) -> String {
     let mut result = String::new();
     let mut sorted: Vec<_> = dir.files.iter().collect();
-    sorted.sort_by_key(|(name, _)| *name);
+    sorted.sort_by(|a, b| alphanumeric_sort::compare_str(&a.0, &b.0)); 
     for (name, file) in sorted {
         result
             .write_fmt(format_args!("## {} ##\n{}\n\n", name, &file.contents))
