@@ -36,14 +36,14 @@ impl CompileResult {
 }
 
 #[wasm_bindgen]
-pub fn compile(source: String, opt_mode: u8) -> CompileResult {
+pub fn compile(source: String, build_mode: u8) -> CompileResult {
     let mut config = CompileConfig::new(get_std_module().into(), ".".into());
-    let opt_mode = match opt_mode {
-        0 => debris_core::OptMode::None,
-        1 => debris_core::OptMode::Full,
-        _ => return CompileResult(Err("Invalid Opt Mode".to_string())),
+    let build_mode = match build_mode {
+        0 => debris_core::BuildMode::Debug,
+        1 => debris_core::BuildMode::Release,
+        _ => return CompileResult(Err("Invalid Build Mode".to_string())),
     };
-    config.compile_context.config.opt_mode = opt_mode;
+    config.compile_context.config.update_build_mode(build_mode);
     match compile_inner(source, &mut config) {
         Ok(mut result) => {
             let function_folder = match result

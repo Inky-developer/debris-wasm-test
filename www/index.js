@@ -44,22 +44,22 @@ function mc_lang() {
     }))
 }
 
-let build_mode = 1;
+let build_mode = 0;
 
 const report_err = 'Please consider reporting this error at the <a target="_blank" href=https://github.com/Inky-developer/debris/issues/new?assignees=&labels=ICE%2C+bug&body=%%%&title=ICE:>github repository</a>!'
 const error_report = 'The following code causes an internal compile error:\n```\n%%%\n```\n\n**Additional context**\nAdd any other relevant context about the problem here'
 
 const error_banner = document.getElementById("error_banner");
 
-const opt_mode_display = document.getElementById("opt_mode")
+const build_mode_display = document.getElementById("build_mode")
 document.getElementById("btn_debug").onclick = () => {
     build_mode = 0;
-    opt_mode_display.innerText = "Optimizations: None";
+    build_mode_display.innerText = "Build Mode: Debug";
     compile()
 }
 document.getElementById("btn_release").onclick = () => {
     build_mode = 1;
-    opt_mode_display.innerText = "Optimizations: Full";
+    build_mode_display.innerText = "Build Mode: Release";
     compile();
 }
 
