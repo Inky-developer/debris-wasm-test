@@ -1,7 +1,8 @@
 use debris_lang::{
     debris_backends::{Backend, DatapackBackend},
     debris_common::Code,
-    debris_core, get_std_module,
+    debris_core::{self, BuildMode},
+    get_std_module,
     vfs::{Directory, FsElement},
     CompileConfig,
 };
@@ -12,6 +13,12 @@ use wasm_bindgen::prelude::*;
 
 // #[global_allocator]
 // static ALLOC: WeeAlloc = WeeAlloc::INIT;
+
+#[wasm_bindgen]
+extern "C" {
+    #[wasm_bindgen(js_namespace=console)]
+    fn log(s: &str);
+}
 
 #[wasm_bindgen]
 pub struct CompileResult(Result<String, String>);
@@ -80,6 +87,10 @@ pub fn compile_full(source: String) -> Option<String> {
     }
 
     let mut config = CompileConfig::new(get_std_module().into(), ".".into());
+    config
+        .compile_context
+        .config
+        .update_build_mode(BuildMode::Release);
     match compile_inner(source, &mut config) {
         Ok(dir) => Some(dir_to_json(dir).to_string()),
         Err(_) => None,
@@ -107,7 +118,7 @@ fn compile_inner(
 fn stringify_dir(dir: &Directory) -> String {
     let mut result = String::new();
     let mut sorted: Vec<_> = dir.files.iter().collect();
-    sorted.sort_by(|a, b| alphanumeric_sort::compare_str(&a.0, &b.0)); 
+    sorted.sort_by(|a, b| alphanumeric_sort::compare_str(&a.0, &b.0));
     for (name, file) in sorted {
         result
             .write_fmt(format_args!("## {} ##\n{}\n\n", name, &file.contents))
