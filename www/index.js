@@ -158,15 +158,21 @@ function compile() {
 
 async function get_permalink() {
     const URL = "https://inky-developer.github.io/debris-playground/?code=";
-    const code = encodeURIComponent(input_editor.state.doc.toString());
+    const code = input_editor.state.doc.toString();
 
     // Please be nice...
-    const snippet_url = `https://debris-snippets.glitch.me/add/${code}`;
-    const response = await fetch(snippet_url).then((response) => response.json());
+    const snippet_url = `https://debris-snippets.glitch.me/add/`;
+    const response = await fetch(snippet_url, {
+        method: "POST",
+        body: JSON.stringify({"text": code}),
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    }).then((response) => response.json());
     if (response.success) {
         return URL + response.id;
     }
-
+    console.log(response);
     alert("Could not create a permalink!");
     return null;
 }
@@ -232,7 +238,12 @@ window.onunload = () => localStorage.setItem("last_code", input_editor.state.doc
 document.getElementById("permalink").onclick = () => {
     const element = document.getElementById("permalink");
     element.disabled = true;
+    const original_content = element.textContent;
     element.textContent = "Please wait...";
-    get_permalink().then((permalink) => window.location.href = permalink);
+    get_permalink().then((permalink) => {
+        if (permalink != null) window.open(permalink, "_blank");
+        element.disabled = false;
+        element.textContent = original_content;
+    });
 };
 document.getElementById("download").onclick = () => download_pack();
