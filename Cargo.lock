@@ -45,9 +45,9 @@ dependencies = [
 
 [[package]]
 name = "bumpalo"
-version = "3.6.1"
+version = "3.7.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "63396b8a4b9de3f4fdfb320ab6080762242f66a8ef174c49d8e19b674db4cdbe"
+checksum = "9c59e7af012c713f529e7a3ee57ce9b31ddd858d4b512923602f74608b009631"
 
 [[package]]
 name = "byte-tools"
@@ -86,7 +86,7 @@ dependencies = [
 [[package]]
 name = "debris-backends"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#7a50895aac7dda3f81d36382ca7ce3e1d1ba8c51"
+source = "git+https://github.com/Inky-developer/debris#7647905faa33ecaabd01ae228e3ef125c2a2264b"
 dependencies = [
  "debris-core",
  "rustc-hash",
@@ -96,7 +96,7 @@ dependencies = [
 [[package]]
 name = "debris-common"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#7a50895aac7dda3f81d36382ca7ce3e1d1ba8c51"
+source = "git+https://github.com/Inky-developer/debris#7647905faa33ecaabd01ae228e3ef125c2a2264b"
 dependencies = [
  "indexmap",
  "rustc-hash",
@@ -106,7 +106,7 @@ dependencies = [
 [[package]]
 name = "debris-core"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#7a50895aac7dda3f81d36382ca7ce3e1d1ba8c51"
+source = "git+https://github.com/Inky-developer/debris#7647905faa33ecaabd01ae228e3ef125c2a2264b"
 dependencies = [
  "annotate-snippets",
  "debris-common",
@@ -124,7 +124,7 @@ dependencies = [
 [[package]]
 name = "debris-derive"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#7a50895aac7dda3f81d36382ca7ce3e1d1ba8c51"
+source = "git+https://github.com/Inky-developer/debris#7647905faa33ecaabd01ae228e3ef125c2a2264b"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -134,7 +134,7 @@ dependencies = [
 [[package]]
 name = "debris-lang"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#7a50895aac7dda3f81d36382ca7ce3e1d1ba8c51"
+source = "git+https://github.com/Inky-developer/debris#7647905faa33ecaabd01ae228e3ef125c2a2264b"
 dependencies = [
  "debris-backends",
  "debris-common",
@@ -147,7 +147,7 @@ dependencies = [
 [[package]]
 name = "debris-std"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#7a50895aac7dda3f81d36382ca7ce3e1d1ba8c51"
+source = "git+https://github.com/Inky-developer/debris#7647905faa33ecaabd01ae228e3ef125c2a2264b"
 dependencies = [
  "debris-core",
 ]
@@ -311,9 +311,9 @@ dependencies = [
 
 [[package]]
 name = "proc-macro2"
-version = "1.0.26"
+version = "1.0.27"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "a152013215dca273577e18d2bf00fa862b89b24169fb78c4c95aeb07992c9cec"
+checksum = "f0d8caf72986c1a598726adc988bb5984792ef84f5ee5aa50209145ee8077038"
 dependencies = [
  "unicode-xid",
 ]
@@ -393,18 +393,18 @@ dependencies = [
 
 [[package]]
 name = "thiserror"
-version = "1.0.24"
+version = "1.0.25"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "e0f4a65597094d4483ddaed134f409b2cb7c1beccf25201a9f73c719254fa98e"
+checksum = "fa6f76457f59514c7eeb4e59d891395fab0b2fd1d40723ae737d64153392e9c6"
 dependencies = [
  "thiserror-impl",
 ]
 
 [[package]]
 name = "thiserror-impl"
-version = "1.0.24"
+version = "1.0.25"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "7765189610d8241a44529806d6fd1f2e0a08734313a35d5b3a556f92b381f3c0"
+checksum = "8a36768c0fbf1bb15eca10defa29526bda730a2376c2ab4393ccfa16fb1a318d"
 dependencies = [
  "proc-macro2",
  "quote",
@@ -438,7 +438,7 @@ checksum = "8ccb82d61f80a663efe1f787a51b16b5a51e3314d6ac365b08639f52387b33f3"
 [[package]]
 name = "vfs"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#7a50895aac7dda3f81d36382ca7ce3e1d1ba8c51"
+source = "git+https://github.com/Inky-developer/debris#7647905faa33ecaabd01ae228e3ef125c2a2264b"
 dependencies = [
  "rustc-hash",
 ]
