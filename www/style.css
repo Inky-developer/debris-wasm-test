@@ -44,7 +44,7 @@ body {
   justify-content: center;
   align-items: center;
   font-size: large;
-  font-family: fantasy;
+  /* font-family: fantasy; */
   font-weight: bolder;
   visibility: collapse;
 }
@@ -128,7 +128,7 @@ body {
   padding: 12px 16px;
   text-decoration: none;
   display: block;
-  font-family: fantasy;
+  /* font-family: fantasy; */
   overflow: auto;
 }
 
