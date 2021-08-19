@@ -30,6 +30,10 @@ body {
   max-height: calc(100% - 10pt);
 }
 
+.interpreter {
+  flex-basis: 100%;
+}
+
 .cm-wrap {
   height: 100%;
 }
