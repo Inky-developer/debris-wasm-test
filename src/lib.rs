@@ -1,9 +1,9 @@
+use datapack_common::vfs::{Directory, FsElement};
 use debris_lang::{
     debris_backends::{Backend, DatapackBackend},
     debris_common::Code,
     debris_core::{self, BuildMode},
     get_std_module,
-    vfs::{Directory, FsElement},
     CompileConfig,
 };
 use serde_json::json;
@@ -40,6 +40,40 @@ impl CompileResult {
             Err(e) => JsValue::from_str(&e),
         }
     }
+}
+
+#[wasm_bindgen]
+pub fn compile_and_run(source: String) -> CompileResult {
+    let mut config = CompileConfig::new(get_std_module().into(), ".".into());
+    config
+        .compile_context
+        .config
+        .update_build_mode(BuildMode::Release);
+    let pack = match compile_inner(source, &mut config) {
+        Ok(pack) => pack,
+        Err(err) => return CompileResult(Err(err.format(&config.compile_context))),
+    };
+
+    let funcs = datapack_common::functions::get_functions(&pack).unwrap();
+
+    let idx = funcs
+        .iter()
+        .enumerate()
+        .find(|(_, f)| f.id.path == "main")
+        .unwrap_or_else(|| {
+            eprintln!("Failed to find {:?}", "main");
+            panic!();
+        })
+        .0;
+
+    let mut i = datapack_vm::Interpreter::new(funcs, idx);
+    let result = i.run_to_end();
+    if let Err(e) = result {
+        return CompileResult(Err(e.to_string()));
+    }
+
+    let output = i.output.join("\n");
+    return CompileResult(Ok(output))
 }
 
 #[wasm_bindgen]
