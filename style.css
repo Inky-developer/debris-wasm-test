@@ -1,5 +1,5 @@
 body {
-  background-color: blueviolet;
+  background-color: rgb(24, 74, 167);
   height: 100vh;
   margin: 0;
   display: flex;
@@ -27,11 +27,12 @@ body {
   background-color: aliceblue;
   overflow: auto;
   /* Height minus twice the margin */
-  max-height: calc(100% - 10pt);
+  height: 75vh;
 }
 
 .interpreter {
   flex-basis: 100%;
+  max-height: 15vh;
 }
 
 .cm-wrap {
@@ -57,6 +58,7 @@ body {
   background-color: aliceblue;
   border-radius: 6pt;
   width: calc(100% - 10pt);
+  max-height: 15vh;
   display: flex;
   padding: 5pt;
   box-sizing: border-box;
@@ -75,7 +77,7 @@ body {
   /* Buttons visuals */
   padding: 2pt;
   background-color: aliceblue;
-  border: 2pt solid cadetblue;
+  border: 2pt solid rgb(112, 196, 199);
   text-decoration: none;
   display: inline-block;
   border-radius: 4pt;
@@ -84,7 +86,7 @@ body {
 }
 
 .toolbar > button:hover, .dropdown_button:hover {
-  background-color: cadetblue;
+  background-color: rgb(112, 196, 199);
   border: 2pt solid blueviolet;
   transition-duration: 200ms;
 }
@@ -122,7 +124,7 @@ body {
   z-index: 1;
   /* min-width: 160pt; */
   box-shadow: 3pt;
-  background-color: cadetblue;
+  background-color: rgb(112, 196, 199);
   border-radius: 4pt;
   width: 100%;
 }
