@@ -3,8 +3,7 @@ use debris_lang::{
     debris_backends::{Backend, DatapackBackend},
     debris_common::Code,
     debris_core::{self, BuildMode},
-    get_std_module,
-    CompileConfig,
+    get_std_module, CompileConfig,
 };
 use serde_json::json;
 use std::fmt::Write;
@@ -28,7 +27,7 @@ impl CompileResult {
     #[wasm_bindgen(getter)]
     pub fn data(&self) -> JsValue {
         match self.0.as_ref() {
-            Ok(result) => JsValue::from_str(&result),
+            Ok(result) => JsValue::from_str(result),
             Err(_) => JsValue::null(),
         }
     }
@@ -37,7 +36,7 @@ impl CompileResult {
     pub fn error(&self) -> JsValue {
         match self.0.as_ref() {
             Ok(_) => JsValue::null(),
-            Err(e) => JsValue::from_str(&e),
+            Err(e) => JsValue::from_str(e),
         }
     }
 }
@@ -73,7 +72,7 @@ pub fn compile_and_run(source: String) -> CompileResult {
     }
 
     let output = i.output.join("\n");
-    return CompileResult(Ok(output))
+    CompileResult(Ok(output))
 }
 
 #[wasm_bindgen]
