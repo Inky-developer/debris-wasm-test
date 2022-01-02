@@ -254,7 +254,11 @@ function load_examples() {
             Promise.all(fetches).then(() => {
                 const items_obj = document.getElementById("example_dropdown_list");
                 items_obj.innerHTML = "";
-                examples.sort();
+                examples.sort((a, b) => {
+                    if (a > b) return 1;
+                    if (b > a) return -1;
+                    return 0;
+                });
                 for (let element of examples) {
                     let obj = document.createElement("a");
                     obj.innerText = element.name;
@@ -266,7 +270,7 @@ function load_examples() {
 }
 load_examples();
 
-// intial compile
+// initial compile
 compile();
 // Save code to local storage so it is persistent
 window.onunload = () => localStorage.setItem("last_code", input_editor.state.doc.toString());
