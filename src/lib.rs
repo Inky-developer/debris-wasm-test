@@ -1,9 +1,8 @@
 use datapack_common::vfs::{Directory, FsElement};
 use debris_lang::{
-    debris_backends::{Backend, DatapackBackend},
-    debris_common::Code,
-    debris_core::{self, BuildMode},
-    get_std_module, CompileConfig,
+    backends::{Backend, DatapackBackend},
+    common::{BuildMode, Code},
+    CompileConfig,
 };
 use serde_json::json;
 use std::fmt::Write;
@@ -43,7 +42,7 @@ impl CompileResult {
 
 #[wasm_bindgen]
 pub fn compile_and_run(source: String) -> CompileResult {
-    let mut config = CompileConfig::new(get_std_module().into(), ".".into());
+    let mut config = CompileConfig::new(".".into());
     config
         .compile_context
         .config
@@ -53,9 +52,9 @@ pub fn compile_and_run(source: String) -> CompileResult {
         Err(err) => return CompileResult(Err(err.format(&config.compile_context))),
     };
 
-    let funcs = datapack_common::functions::get_functions(&pack).unwrap();
+    let functions = datapack_common::functions::get_functions(&pack).unwrap();
 
-    let idx = funcs
+    let idx = functions
         .iter()
         .enumerate()
         .find(|(_, f)| f.id.path == "main")
@@ -65,7 +64,7 @@ pub fn compile_and_run(source: String) -> CompileResult {
         })
         .0;
 
-    let mut i = datapack_vm::Interpreter::new(funcs, idx);
+    let mut i = datapack_vm::Interpreter::new(functions, idx);
     let result = i.run_to_end();
     if let Err(e) = result {
         return CompileResult(Err(e.to_string()));
@@ -77,10 +76,10 @@ pub fn compile_and_run(source: String) -> CompileResult {
 
 #[wasm_bindgen]
 pub fn compile(source: String, build_mode: u8) -> CompileResult {
-    let mut config = CompileConfig::new(get_std_module().into(), ".".into());
+    let mut config = CompileConfig::new(".".into());
     let build_mode = match build_mode {
-        0 => debris_core::BuildMode::Debug,
-        1 => debris_core::BuildMode::Release,
+        0 => BuildMode::Debug,
+        1 => BuildMode::Release,
         _ => return CompileResult(Err("Invalid Build Mode".to_string())),
     };
     config.compile_context.config.update_build_mode(build_mode);
@@ -90,7 +89,7 @@ pub fn compile(source: String, build_mode: u8) -> CompileResult {
                 .resolve_path(&["data", "debris_project", "functions"])
                 .unwrap()
             {
-                FsElement::Directoy(dir) => dir,
+                FsElement::Directory(dir) => dir,
                 _ => panic!("Expected dir"),
             };
             CompileResult(Ok(stringify_dir(function_folder)))
@@ -119,7 +118,7 @@ pub fn compile_full(source: String) -> Option<String> {
         })
     }
 
-    let mut config = CompileConfig::new(get_std_module().into(), ".".into());
+    let mut config = CompileConfig::new(".".into());
     config
         .compile_context
         .config
@@ -133,15 +132,15 @@ pub fn compile_full(source: String) -> Option<String> {
 fn compile_inner(
     source: String,
     config: &mut CompileConfig,
-) -> debris_core::error::Result<Directory> {
+) -> debris_lang::error::Result<Directory> {
     let id = config
         .compile_context
         .input_files
         .add_input(Code { path: None, source });
 
-    let hir = config.get_hir(id)?;
-    let mut mir = config.get_mir(&hir)?;
-    let llir = config.get_llir(&mir.contexts, &mut mir.namespaces)?;
+    let hir = config.compute_hir(id)?;
+    let mir = config.compute_mir(&hir)?;
+    let llir = config.compute_llir(&mir, debris_lang::std::load_all)?;
 
     let result = DatapackBackend.generate(&llir, &config.compile_context);
 
