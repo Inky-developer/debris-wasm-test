@@ -25,11 +25,11 @@ function words(str) {
 
 function debris_lang() {
     return StreamLanguage.define(clike({
-        keywords: words("let comptime import mod fn struct loop if else return break continue not and or"),
+        keywords: words("let comptime import mod fn struct interface loop while for if else return break continue not and or"),
         types: words("Any Int Bool Null StaticInt DynamicInt StaticBool DynamicBool String Module"),
         number: /-?[0-9]+/,
-        blockKeywords: words("mod fn loop if else"),
-        defKeywords: words("fn struct"),
+        blockKeywords: words("mod fn struct interface loop while for if else"),
+        defKeywords: words("mod fn struct interface"),
         atoms: words("true false"),
         builtin: words("execute set_score print dbg register_ticking_function dyn_int"),
         typeFirstDefinitions: false,
