@@ -1,11 +1,11 @@
-use datapack_common::vfs::{Directory, FsElement};
+use datapack_common::vfs;
 use debris_lang::{
     backends::{Backend, DatapackBackend},
     common::{BuildMode, Code},
     CompileConfig,
 };
 use serde_json::json;
-use std::fmt::Write;
+use std::{cmp::Ordering, fmt::Write};
 use wasm_bindgen::prelude::*;
 // use wee_alloc::WeeAlloc;
 
@@ -89,7 +89,7 @@ pub fn compile(source: String, build_mode: u8) -> CompileResult {
                 .resolve_path(&["data", "debris_project", "functions"])
                 .unwrap()
             {
-                FsElement::Directory(dir) => dir,
+                vfs::FsElement::Directory(dir) => dir,
                 _ => panic!("Expected dir"),
             };
             CompileResult(Ok(stringify_dir(function_folder)))
@@ -101,7 +101,7 @@ pub fn compile(source: String, build_mode: u8) -> CompileResult {
 /// Compiles the source and returns the full datapack as a json string
 #[wasm_bindgen]
 pub fn compile_full(source: String) -> Option<String> {
-    fn dir_to_json(dir: Directory) -> serde_json::Value {
+    fn dir_to_json(dir: vfs::Directory) -> serde_json::Value {
         let sub_dirs: serde_json::Value = dir
             .directories
             .into_iter()
@@ -132,7 +132,7 @@ pub fn compile_full(source: String) -> Option<String> {
 fn compile_inner(
     source: String,
     config: &mut CompileConfig,
-) -> debris_lang::error::Result<Directory> {
+) -> debris_lang::error::Result<vfs::Directory> {
     let id = config
         .compile_context
         .input_files
@@ -147,10 +147,18 @@ fn compile_inner(
     Ok(result)
 }
 
-fn stringify_dir(dir: &Directory) -> String {
+fn stringify_dir(dir: &vfs::Directory) -> String {
     let mut result = String::new();
-    let mut sorted: Vec<_> = dir.files.iter().collect();
-    sorted.sort_by(|a, b| alphanumeric_sort::compare_str(&a.0, &b.0));
+    let mut sorted = Vec::with_capacity(dir.files.len());
+    walk_dir("", dir, &mut |name, file| sorted.push((name, file)));
+    sorted.sort_by(|a, b| {
+        // Show "interesting" files at the top, then sort alphanumerically
+        match (a.0.contains("block"), b.0.contains("block")) {
+            (true, false) => Ordering::Greater,
+            (false, true) => Ordering::Greater,
+            _ => alphanumeric_sort::compare_str(&a.0, &b.0),
+        }
+    });
     for (name, file) in sorted {
         result
             .write_fmt(format_args!("## {} ##\n{}\n\n", name, &file.contents))
@@ -158,4 +166,20 @@ fn stringify_dir(dir: &Directory) -> String {
     }
 
     result
+}
+
+fn walk_dir<'a>(
+    base: &str,
+    dir: &'a vfs::Directory,
+    handler: &mut impl FnMut(String, &'a vfs::File),
+) {
+    for (dirname, dir) in &dir.directories {
+        let nested_base = format!("{}/{}", base, dirname);
+        walk_dir(&nested_base, dir, handler);
+    }
+
+    for (filename, file) in &dir.files {
+        let path = format!("{}/{}", base, filename);
+        handler(path, file);
+    }
 }

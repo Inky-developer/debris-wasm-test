@@ -8,6 +8,9 @@ module.exports = {
     filename: "bootstrap.js",
   },
   mode: "production",
+  performance: {
+    maxAssetSize: 2_000_000,
+  },
   plugins: [
     new CopyWebpackPlugin(['index.html']),
     new CopyWebpackPlugin(['style.css']),
