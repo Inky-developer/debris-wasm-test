@@ -54,13 +54,13 @@ pub fn compile_and_run(source: String) -> CompileResult {
 
     let functions = datapack_common::functions::get_functions(&pack).unwrap();
 
+    let main_function_path = format!("{}main", DatapackBackend::FUNCTION_INTERNAL_PATH);
     let idx = functions
         .iter()
         .enumerate()
-        .find(|(_, f)| f.id.path == "main")
+        .find(|(_, f)| f.id.path == main_function_path)
         .unwrap_or_else(|| {
-            eprintln!("Failed to find {:?}", "main");
-            panic!();
+            panic!("Failed to find main");
         })
         .0;
 
