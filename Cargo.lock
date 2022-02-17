@@ -20,9 +20,9 @@ dependencies = [
 
 [[package]]
 name = "autocfg"
-version = "1.0.1"
+version = "1.1.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "cdb031dd78e28731d87d56cc8ffef4a8f36ca26c38fe2de700543e627f8a464a"
+checksum = "d468802bab17cbc0cc575e9b053f41e72aa36bfa6b7f55e3529ffa43161b97fa"
 
 [[package]]
 name = "block-buffer"
@@ -72,7 +72,7 @@ checksum = "baf1de4339761588bc0619e3cbc0120ee582ebb74b53b4efbf79117bd2da40fd"
 [[package]]
 name = "command_parser"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/command-parser#012cd54a0a281d7bc0389ed24659e5f436f29d4a"
+source = "git+https://github.com/Inky-developer/command-parser#bfae7be736e620eb1a3e09ea2efbb68c8b185a55"
 dependencies = [
  "parse_macro",
 ]
@@ -125,7 +125,7 @@ dependencies = [
 [[package]]
 name = "datapack_common"
 version = "0.1.0"
-source = "git+https://github.com/SuperTails/datapack_common#34400cd1550b75dd28e9e2439b3a364c5235db7b"
+source = "git+https://github.com/SuperTails/datapack_common#57759feaedc770190657ebd21e05eff82ca705cc"
 dependencies = [
  "command_parser",
  "itertools",
@@ -138,7 +138,7 @@ dependencies = [
 [[package]]
 name = "datapack_vm"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/datapackvm#8626f9018d5d1a1c5339ee7715c520c6af1222b5"
+source = "git+https://github.com/SuperTails/datapackvm#48f05fb71c200685c21a7f281582e199a9eb961d"
 dependencies = [
  "datapack_common",
  "lazy_static",
@@ -150,7 +150,7 @@ dependencies = [
 [[package]]
 name = "debris-backends"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#3ee9b8c2f2922fd5a12e73bc5cf4dd9dd71b1271"
+source = "git+https://github.com/Inky-developer/debris#d57f67a247d41a1ead47d33810c9b2d724e6e08c"
 dependencies = [
  "datapack_common",
  "debris-common",
@@ -163,7 +163,7 @@ dependencies = [
 [[package]]
 name = "debris-common"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#3ee9b8c2f2922fd5a12e73bc5cf4dd9dd71b1271"
+source = "git+https://github.com/Inky-developer/debris#d57f67a247d41a1ead47d33810c9b2d724e6e08c"
 dependencies = [
  "indexmap",
  "rustc-hash",
@@ -173,7 +173,7 @@ dependencies = [
 [[package]]
 name = "debris-error"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#3ee9b8c2f2922fd5a12e73bc5cf4dd9dd71b1271"
+source = "git+https://github.com/Inky-developer/debris#d57f67a247d41a1ead47d33810c9b2d724e6e08c"
 dependencies = [
  "annotate-snippets",
  "debris-common",
@@ -183,7 +183,7 @@ dependencies = [
 [[package]]
 name = "debris-hir"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#3ee9b8c2f2922fd5a12e73bc5cf4dd9dd71b1271"
+source = "git+https://github.com/Inky-developer/debris#d57f67a247d41a1ead47d33810c9b2d724e6e08c"
 dependencies = [
  "debris-common",
  "debris-error",
@@ -197,7 +197,7 @@ dependencies = [
 [[package]]
 name = "debris-lang"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#3ee9b8c2f2922fd5a12e73bc5cf4dd9dd71b1271"
+source = "git+https://github.com/Inky-developer/debris#d57f67a247d41a1ead47d33810c9b2d724e6e08c"
 dependencies = [
  "datapack_common",
  "debris-backends",
@@ -212,7 +212,7 @@ dependencies = [
 [[package]]
 name = "debris-llir"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#3ee9b8c2f2922fd5a12e73bc5cf4dd9dd71b1271"
+source = "git+https://github.com/Inky-developer/debris#d57f67a247d41a1ead47d33810c9b2d724e6e08c"
 dependencies = [
  "debris-common",
  "debris-error",
@@ -226,7 +226,7 @@ dependencies = [
 [[package]]
 name = "debris-mir"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#3ee9b8c2f2922fd5a12e73bc5cf4dd9dd71b1271"
+source = "git+https://github.com/Inky-developer/debris#d57f67a247d41a1ead47d33810c9b2d724e6e08c"
 dependencies = [
  "debris-common",
  "debris-error",
@@ -238,7 +238,7 @@ dependencies = [
 [[package]]
 name = "debris-std"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/debris#3ee9b8c2f2922fd5a12e73bc5cf4dd9dd71b1271"
+source = "git+https://github.com/Inky-developer/debris#d57f67a247d41a1ead47d33810c9b2d724e6e08c"
 dependencies = [
  "debris-common",
  "debris-error",
@@ -376,7 +376,7 @@ checksum = "2839e79665f131bdb5782e51f2c6c9599c133c6098982a54c794358bf432529c"
 [[package]]
 name = "parse_macro"
 version = "0.1.0"
-source = "git+https://github.com/Inky-developer/command-parser#012cd54a0a281d7bc0389ed24659e5f436f29d4a"
+source = "git+https://github.com/Inky-developer/command-parser#bfae7be736e620eb1a3e09ea2efbb68c8b185a55"
 dependencies = [
  "itertools",
  "proc-macro2",
@@ -491,9 +491,9 @@ dependencies = [
 
 [[package]]
 name = "serde_json"
-version = "1.0.78"
+version = "1.0.79"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "d23c1ba4cf0efd44be32017709280b32d1cea5c3f1275c3b6d9e8bc54f758085"
+checksum = "8e8d9fa5c3b304765ce1fd9c4c8a3de2c8db365a5b91be52f186efc675681d95"
 dependencies = [
  "itoa",
  "ryu",
@@ -502,9 +502,9 @@ dependencies = [
 
 [[package]]
 name = "serde_with"
-version = "1.11.0"
+version = "1.12.0"
 source = "registry+https://github.com/rust-lang/crates.io-index"
-checksum = "ad6056b4cb69b6e43e3a0f055def223380baecc99da683884f205bf347f7c4b3"
+checksum = "ec1e6ec4d8950e5b1e894eac0d360742f3b1407a6078a604a731c4b3f49cefbc"
 dependencies = [
  "rustversion",
  "serde",
