@@ -264,14 +264,17 @@ function load_examples() {
                     obj.innerText = element.name;
                     obj.onclick = () => set_input(element.content);
                     items_obj.appendChild(obj);
+
+                    wasm.add_module(element.name, element.content);
                 }
+
+                // Since modules are now loaded, compile initially
+                compile();
             });
         });
 }
 load_examples();
 
-// initial compile
-compile();
 // Save code to local storage so it is persistent
 window.onunload = () => localStorage.setItem("last_code", input_editor.state.doc.toString());
 

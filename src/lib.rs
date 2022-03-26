@@ -1,16 +1,21 @@
 use datapack_common::vfs;
 use debris_lang::{
     backends::{Backend, DatapackBackend},
-    common::{BuildMode, Code},
+    common::{file_provider::MemoryFileProvider, BuildMode, Code},
     CompileConfig,
 };
+use once_cell::sync::Lazy;
 use serde_json::json;
-use std::{cmp::Ordering, fmt::Write};
+use std::{cmp::Ordering, fmt::Write, sync::Mutex};
 use wasm_bindgen::prelude::*;
 // use wee_alloc::WeeAlloc;
 
 // #[global_allocator]
 // static ALLOC: WeeAlloc = WeeAlloc::INIT;
+
+/// Holds the importable files
+static FILE_PROVIDER: Lazy<Mutex<MemoryFileProvider>> =
+    Lazy::new(|| Mutex::new(MemoryFileProvider::default()));
 
 #[wasm_bindgen]
 extern "C" {
@@ -41,13 +46,20 @@ impl CompileResult {
 }
 
 #[wasm_bindgen]
+pub fn add_module(filename: String, contents: String) {
+    let mut lock = FILE_PROVIDER.lock().unwrap();
+    lock.add_file(filename.into(), contents.into());
+}
+
+#[wasm_bindgen]
 pub fn compile_and_run(source: String) -> CompileResult {
-    let mut config = CompileConfig::new(".".into());
+    let provider = FILE_PROVIDER.lock().unwrap();
+    let mut config = CompileConfig::new(Box::new(provider));
     config
         .compile_context
         .config
         .update_build_mode(BuildMode::Release);
-    let pack = match compile_inner(source, &mut config) {
+    let pack = match compile_inner(source.into(), &mut config) {
         Ok(pack) => pack,
         Err(err) => return CompileResult(Err(err.format(&config.compile_context))),
     };
@@ -76,14 +88,15 @@ pub fn compile_and_run(source: String) -> CompileResult {
 
 #[wasm_bindgen]
 pub fn compile(source: String, build_mode: u8) -> CompileResult {
-    let mut config = CompileConfig::new(".".into());
+    let provider = FILE_PROVIDER.lock().unwrap();
+    let mut config = CompileConfig::new(Box::new(provider));
     let build_mode = match build_mode {
         0 => BuildMode::Debug,
         1 => BuildMode::Release,
         _ => return CompileResult(Err("Invalid Build Mode".to_string())),
     };
     config.compile_context.config.update_build_mode(build_mode);
-    match compile_inner(source, &mut config) {
+    match compile_inner(source.into(), &mut config) {
         Ok(mut result) => {
             let function_folder = match result
                 .resolve_path(&["data", "debris_project", "functions"])
@@ -118,19 +131,20 @@ pub fn compile_full(source: String) -> Option<String> {
         })
     }
 
-    let mut config = CompileConfig::new(".".into());
+    let provider = FILE_PROVIDER.lock().unwrap();
+    let mut config = CompileConfig::new(Box::new(provider));
     config
         .compile_context
         .config
         .update_build_mode(BuildMode::Release);
-    match compile_inner(source, &mut config) {
+    match compile_inner(source.into(), &mut config) {
         Ok(dir) => Some(dir_to_json(dir).to_string()),
         Err(_) => None,
     }
 }
 
 fn compile_inner(
-    source: String,
+    source: Box<str>,
     config: &mut CompileConfig,
 ) -> debris_lang::error::Result<vfs::Directory> {
     let id = config
