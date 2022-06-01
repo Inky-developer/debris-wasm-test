@@ -8,12 +8,15 @@ module.exports = {
     filename: "bootstrap.js",
   },
   mode: "production",
+  experiments: {
+    asyncWebAssembly: true,
+  },
   performance: {
     maxAssetSize: 2_000_000,
   },
   plugins: [
-    new CopyWebpackPlugin(['index.html']),
-    new CopyWebpackPlugin(['style.css']),
-    new CopyWebpackPlugin(['github_logo.png']),
+    new CopyWebpackPlugin({ patterns: ['index.html'] }),
+    new CopyWebpackPlugin({ patterns: ['style.css'] }),
+    new CopyWebpackPlugin({ patterns: ['github_logo.png'] }),
   ],
 };

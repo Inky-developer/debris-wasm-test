@@ -146,7 +146,7 @@ pub fn compile_full(source: String) -> Option<String> {
 fn compile_inner(
     source: Box<str>,
     config: &mut CompileConfig,
-) -> debris_lang::error::Result<vfs::Directory> {
+) -> Result<vfs::Directory, debris_lang::error::CompileErrors> {
     let id = config
         .compile_context
         .input_files
